@@ -5,15 +5,15 @@ Source code for our DAC 2024 paper, "Enabling Multiple Tensor-wise Operator Fusi
 2. Install c++ boost library.
 3. Clone the repository.
 ```
-$ git clone git@github.com:lxu28973/DAT.git
+git clone git@github.com:lxu28973/DAT.git
 ```
 4. Compile the code.
 ```
-$ cd DAT && cmake -Bbuild && cmake --build build
+cd DAT && cmake -Bbuild && cmake --build build
 ```
 5. Test
 ```
-$ cd build && ctest
+cd build && ctest
 ```
 
 ## Example input file
