@@ -36,6 +36,7 @@ enable_compute_utilization_constraint=1
 
 ## Example usage
 ```
+cd YOUR_DAT_ROOT_PATH && mkdir log
 ./build/DAT --config config/bert.cfg
 ```
 It may take minutes to hours, depending on the computer's performance.
