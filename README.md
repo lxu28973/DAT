@@ -1,8 +1,8 @@
 Source code for our DAC 2024 paper, "Enabling Multiple Tensor-wise Operator Fusion for Transformer Models on Spatial Accelerators"
 
 ## Setup
-1. Follow the instruction in gurobi website to get the gurobi licence 
-2. Install c++ boost library.
+1. Install c++ boost library.
+2. Follow the instruction in gurobi website to get the gurobi licence and install gurobi.
 3. Clone the repository.
 ```
 git clone git@github.com:lxu28973/DAT.git
