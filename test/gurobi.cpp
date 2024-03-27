@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include <vector>
+#include <cfloat>
 #include "operator-chain.h"
 #include "to-gurobi.h"
 #include "dse.h"
@@ -41,7 +42,7 @@ int main() {
     return 1;
   }
 
-  double best_obj = MAXFLOAT;
+  double best_obj = FLT_MAX;
   std::vector<DAT::Dim *> best_root_dims_order;
   std::vector<std::vector<int> > best_free_dims_offsets;
   traversalDimOrder(&mul_chain, mem_size, best_obj, best_root_dims_order, best_free_dims_offsets);

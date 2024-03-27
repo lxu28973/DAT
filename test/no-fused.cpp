@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cfloat>
 #include "operator-chain.h"
 #include "to-gurobi.h"
 #include "dse.h"
@@ -44,7 +45,7 @@ int main() {
   for (int i = 0; i < 5; ++i) {
     DAT::OperatorChain mul_chain = op_chain[i];
     size_t dims_num = mul_chain.getDims().size();
-    double best_obj = MAXFLOAT;
+    double best_obj = FLT_MAX;
     std::vector<DAT::Dim *> best_dim_order;
     std::vector<long> record;
     record.reserve(dims_num - 1);
@@ -75,7 +76,7 @@ int main() {
   results = {425984, 425984, 425984, 425984, 425984};
   for (int i = 0; i < 5; ++i) {
     DAT::OperatorChain mul_chain = op_chain[i];
-    double best_obj = MAXFLOAT;
+    double best_obj = FLT_MAX;
     std::vector<DAT::Dim *> best_root_dims_order;
     std::vector<std::vector<int> > best_free_dims_offsets;
     traversalDimOrder(&mul_chain, mem_size, best_obj, best_root_dims_order, best_free_dims_offsets);

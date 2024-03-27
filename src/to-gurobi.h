@@ -6,6 +6,7 @@
 #define MMCHAIN_ANALYSIS_SRC_TO_GUROBI_H
 
 #include "operator-chain.h"
+#include <cfloat>
 #include <limits>
 #include <sstream>
 #include "gurobi_c++.h"
@@ -342,7 +343,7 @@ double mipBlockSize(OperatorChain *op_chain,
                   << op_chain->toString() << std::endl;
       }
       delete[]grbvars;
-      return MAXFLOAT;
+      return FLT_MAX;
     } else {
       std::cerr << "Get non optimal results, please check. mem_size: " << mem_constraint << ": "
                 << op_chain->toString() << std::endl;
@@ -357,10 +358,10 @@ double mipBlockSize(OperatorChain *op_chain,
   } catch (const GRBException &e) {
     std::cout << "Error code = " << e.getErrorCode() << std::endl;
     std::cout << e.getMessage() << std::endl;
-    return MAXFLOAT;
+    return FLT_MAX;
   } catch (...) {
     std::cout << "Exception during optimization" << std::endl;
-    return MAXFLOAT;
+    return FLT_MAX;
   }
 
 }

@@ -2,7 +2,6 @@ add_executable(gemmChain gemm-chain.cpp)
 add_executable(bgemmChain bgemm-chain.cpp)
 add_executable(fusedIO fused-io.cpp)
 add_executable(gurobi gurobi.cpp)
-add_executable(indicator indicator.cpp)
 target_link_libraries(gurobi optimized ${GUROBI_CXX_LIBRARY}
         debug ${GUROBI_CXX_DEBUG_LIBRARY})
 target_link_libraries(gurobi ${GUROBI_LIBRARY})

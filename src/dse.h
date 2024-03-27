@@ -5,6 +5,7 @@
 #ifndef MMCHAIN_ANALYSIS_SRC_DSE_H
 #define MMCHAIN_ANALYSIS_SRC_DSE_H
 
+#include <cfloat>
 #include <bitset>
 #include <fstream>
 #include "operator-chain.h"
@@ -587,7 +588,7 @@ double optimizeBlockSize(OperatorChain *op_chain,
       head_independent &= !op->isHeadDependent();
     }
   }
-  double best_obj = MAXFLOAT;
+  double best_obj = FLT_MAX;
   long best_batch = Options::batch_blocksize;
   long best_head = Options::head_blocksize;
   if (traversal_batch_blocksize) {
@@ -744,7 +745,7 @@ bool geneticDimOrder(OperatorChain *op_chain,
   // init
   const size_t k = 5;
   OperatorTree top_k_dims_orders[k];
-  double top_k_objs[k] = {MAXFLOAT};
+  double top_k_objs[k] = {FLT_MAX};
   for (int i = 0; i < k; ++i) {
     top_k_dims_orders[i] = generateRandomTreeOrder(op_tree);
     op_chain->setOrder(top_k_dims_orders[i].getOrderInfos());
@@ -762,7 +763,7 @@ bool geneticDimOrder(OperatorChain *op_chain,
         log_record.recordDimOrder(op->getDimsOrder());
       }
       log_record.mem_footprint = op_chain->getMemFootprint();
-      if (obj_candidate == MAXFLOAT) {
+      if (obj_candidate == FLT_MAX) {
         log_record.mem_access_volume = -1;
         log_record.compute_time = -1;
       } else {
@@ -803,7 +804,7 @@ bool geneticDimOrder(OperatorChain *op_chain,
           log_record.recordDimOrder(op->getDimsOrder());
         }
         log_record.mem_footprint = op_chain->getMemFootprint();
-        if (obj_candidate == MAXFLOAT) {
+        if (obj_candidate == FLT_MAX) {
           log_record.mem_access_volume = -1;
           log_record.compute_time = -1;
         } else {
@@ -832,7 +833,7 @@ bool geneticDimOrder(OperatorChain *op_chain,
             log_record.recordDimOrder(op->getDimsOrder());
           }
           log_record.mem_footprint = op_chain->getMemFootprint();
-          if (obj_candidate == MAXFLOAT) {
+          if (obj_candidate == FLT_MAX) {
             log_record.mem_access_volume = -1;
             log_record.compute_time = -1;
           } else {
@@ -890,7 +891,7 @@ bool randomDimOrder(OperatorChain *op_chain,
         log_record.recordDimOrder(op->getDimsOrder());
       }
       log_record.mem_footprint = op_chain->getMemFootprint();
-      if (obj == MAXFLOAT) {
+      if (obj == FLT_MAX) {
         log_record.mem_access_volume = -1;
         log_record.compute_time = -1;
       } else {
@@ -974,7 +975,7 @@ bool traversalDimOrder(OperatorChain *op_chain,
             log_record.recordDimOrder(op->getDimsOrder());
           }
           log_record.mem_footprint = op_chain->getMemFootprint();
-          if (obj == MAXFLOAT) {
+          if (obj == FLT_MAX) {
             log_record.mem_access_volume = -1;
             log_record.compute_time = -1;
           } else {
@@ -1051,7 +1052,7 @@ bool randomExecuteOrder(OperatorChain *op_chain,
   }
     {
       bool sub_infeasible = true;
-      double sub_best_obj = MAXFLOAT;
+      double sub_best_obj = FLT_MAX;
       OperatorTree best_dims_order_tree;
       op_chain->setOrder(op_tree.getOrderInfos());
           sub_infeasible =
@@ -1113,7 +1114,7 @@ bool travsersalExecuteOrder(OperatorChain *op_chain,
                                           op_tree, new_options, rank + 1) && infeasible;
     } else {
       bool sub_infeasible = true;
-      double sub_best_obj = MAXFLOAT;
+      double sub_best_obj = FLT_MAX;
       OperatorTree best_dims_order_tree;
       op_chain->setOrder(op_tree.getOrderInfos());
       if (op_chain->getDims().size() <= 7) {
@@ -1336,7 +1337,7 @@ long randomFused(const std::set<DAT::TensorOperator *> &non_add_to_operator_chai
     }
     if (print_log)
       std::cout << "----------------sub situation " << sf << "-----------------" << std::endl;
-    double best_obj = MAXFLOAT;
+    double best_obj = FLT_MAX;
     OperatorTree best_op_tree = mul_chain->getOperatorTree();
     bool sf_infeasible = true;
     sf_infeasible = randomOrder(mul_chain, mem_size, best_obj, best_op_tree);
@@ -1522,7 +1523,7 @@ long traversalFused(const std::set<DAT::TensorOperator *> &non_add_to_operator_c
         }
         if (print_log)
           std::cout << "----------------sub situation " << sf << "-----------------" << std::endl;
-        double best_obj = MAXFLOAT;
+        double best_obj = FLT_MAX;
         OperatorTree best_op_tree = mul_chain->getOperatorTree();
         bool sf_infeasible = true;
         sf_infeasible = optimizeOrder(mul_chain, mem_size, best_obj, best_op_tree);
@@ -1704,14 +1705,14 @@ long flatDSE(const std::set<DAT::TensorOperator *> &non_add_to_operator_chain,
       }
       if (print_log)
         std::cout << "----------------sub situation " << sf << "-----------------" << std::endl;
-      double best_obj = MAXFLOAT;
+      double best_obj = FLT_MAX;
       OperatorTree best_op_tree = mul_chain->getOperatorTree();
       bool sf_infeasible = true;
       if (mul_chain->getOperators().size() > 1) {
         mul_chain->setOrder(o_infos);
         best_obj = optimizeBlockSize(mul_chain, mem_size);
         best_op_tree = mul_chain->getOperatorTree();
-        sf_infeasible = (best_obj == MAXFLOAT);
+        sf_infeasible = (best_obj == FLT_MAX);
       } else {
         sf_infeasible = optimizeOrder(mul_chain, mem_size, best_obj, best_op_tree);
       }
@@ -1884,7 +1885,7 @@ long chimeraDSE(const std::set<DAT::TensorOperator *> &non_add_to_operator_chain
       }
       if (print_log)
         std::cout << "----------------sub situation " << sf << "-----------------" << std::endl;
-      double best_obj = MAXFLOAT;
+      double best_obj = FLT_MAX;
       OperatorTree best_op_tree = mul_chain->getOperatorTree();
       bool sf_infeasible = true;
       sf_infeasible = optimizeOrder(mul_chain, mem_size, best_obj, best_op_tree);
@@ -2057,7 +2058,7 @@ long baselineDSE(const std::set<DAT::TensorOperator *> &non_add_to_operator_chai
       }
       if (print_log)
         std::cout << "----------------sub situation " << sf << "-----------------" << std::endl;
-      double best_obj = MAXFLOAT;
+      double best_obj = FLT_MAX;
       OperatorTree best_op_tree = mul_chain->getOperatorTree();
       bool sf_infeasible = true;
       sf_infeasible = optimizeOrder(mul_chain, mem_size, best_obj, best_op_tree);
@@ -2231,13 +2232,13 @@ long nonDSE(const std::set<DAT::TensorOperator *> &non_add_to_operator_chain,
       }
       if (print_log)
         std::cout << "----------------sub situation " << sf << "-----------------" << std::endl;
-      double best_obj = MAXFLOAT;
+      double best_obj = FLT_MAX;
       OperatorTree best_op_tree = mul_chain->getOperatorTree();
       bool sf_infeasible = true;
       mul_chain->setOrder(o_infos);
       best_obj = mul_chain->getMemAccessVolume();
       best_op_tree = mul_chain->getOperatorTree();
-      sf_infeasible = (best_obj == MAXFLOAT);
+      sf_infeasible = (best_obj == FLT_MAX);
       if (!sf_infeasible) {
         sub_infeasible = false;
         mul_chain->setOrder(best_op_tree.getOrderInfos());
