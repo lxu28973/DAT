@@ -72,3 +72,4 @@ id,seq length,hid size,head num,dim size,mem size,fuse pattern,fuse num,fuse sta
 ```
 
 ## How to cite?
+Lei Xu, Zhiwen Mo, Qin Wang, Jianfei Jiang, Naifeng Jing. Enabling Multiple Tensor-wise Operator Fusion for Transformer Models on Spatial Accelerators. In 61st ACM/IEEE Design Automation Conference (DAC ’24), June 23–27, 2024, San Francisco, CA, USA. ACM, New York, NY, USA, 7 pages. https://doi.org/10.1145/3649329.3657317
